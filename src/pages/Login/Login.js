@@ -14,9 +14,18 @@ export default function Login() {
   }, [dispatch]);
   const onFinish = async (values) => {
     const response = await login(values);
+    if (response.data.isCustomer === true) {
+      dispatch(loginAction(response.data));
+      history.push("/Customer");
+      return;
+    }
+    if (response.data.isAdmin === true) {
+      dispatch(loginAction(response.data));
+      history.push("/Home");
+      return;
+    }
     dispatch(loginAction(response.data));
-    history.push("/home");
-    console.log("Success:", values);
+    history.push("/Home");
   };
 
   const onFinishFailed = (errorInfo) => {

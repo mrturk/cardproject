@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import homeStyle from "./Home.module.css";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import video from "../../assets/backgroundvideos/3.mp4";
 import { Modal, Form, Input, Button } from "antd";
 import { addUser } from "../../services/userAdd";
@@ -44,7 +44,7 @@ export default function Home() {
     try {
       const postedData = {
         ...values,
-        userAdderId: state.id,
+        userAdderId: state.auth.id,
         password: "000000",
         isCustomer: true,
         isDistributor: false,
@@ -248,6 +248,7 @@ export default function Home() {
                       <th scope="col">EPOSTA</th>
                       <th scope="col">TELEFON</th>
                       <th scope="col">KART NUMARASI</th>
+                      <th scope="col">Müşteri Url</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -261,6 +262,17 @@ export default function Home() {
                             <td>{item.email}</td>
                             <td>{item.telnumber}</td>
                             <td>{item.cardnumber}</td>
+                            <td>
+                              <Link
+                                target={"_blank"}
+                                to={"/CustomerInfo/" + item.customerUrl}
+                              >
+                                {window.location.hostname +
+                                  "/" +
+                                  item.customerUrl}
+                              </Link>
+                            </td>
+                            {}
                           </tr>
                         </>
                       );
