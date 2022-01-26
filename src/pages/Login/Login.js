@@ -1,36 +1,57 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import loginStyle from "./Login.module.css";
 import video from "../../assets/backgroundvideos/3.mp4";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Spin } from "antd";
 import { useDispatch } from "react-redux";
 import { loginAction, logoutAction } from "../../store/Action/auth";
 import { useHistory } from "react-router-dom";
 import { login } from "../../services/auth";
 export default function Login() {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   let history = useHistory();
   useEffect(() => {
     dispatch(logoutAction());
   }, [dispatch]);
   const onFinish = async (values) => {
+    setIsLoading(true);
     const response = await login(values);
     if (response.data.isCustomer === true) {
       dispatch(loginAction(response.data));
+      setIsLoading(false);
       history.push("/Customer");
       return;
     }
     if (response.data.isAdmin === true) {
       dispatch(loginAction(response.data));
+      setIsLoading(false);
       history.push("/Home");
       return;
     }
     dispatch(loginAction(response.data));
+    setIsLoading(false);
     history.push("/Home");
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  if (isLoading) {
+    return (
+      <>
+        <div className={loginStyle.main}>
+          <video
+            className={loginStyle.background_video}
+            src={video}
+            autoPlay={true}
+            loop={true}
+            muted={true}
+          />
+          <Spin />
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <div className={loginStyle.main}>
