@@ -14,23 +14,28 @@ export default function Login() {
     dispatch(logoutAction());
   }, [dispatch]);
   const onFinish = async (values) => {
-    setIsLoading(true);
-    const response = await login(values);
-    if (response.data.isCustomer === true) {
-      dispatch(loginAction(response.data));
-      setIsLoading(false);
-      history.push("/Customer");
-      return;
-    }
-    if (response.data.isAdmin === true) {
+    try {
+      setIsLoading(true);
+      const response = await login(values);
+      if (response.data.isCustomer === true) {
+        dispatch(loginAction(response.data));
+        setIsLoading(false);
+        history.push("/Customer");
+        return;
+      }
+      if (response.data.isAdmin === true) {
+        dispatch(loginAction(response.data));
+        setIsLoading(false);
+        history.push("/Home");
+        return;
+      }
       dispatch(loginAction(response.data));
       setIsLoading(false);
       history.push("/Home");
-      return;
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
     }
-    dispatch(loginAction(response.data));
-    setIsLoading(false);
-    history.push("/Home");
   };
 
   const onFinishFailed = (errorInfo) => {

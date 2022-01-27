@@ -1,3 +1,6 @@
-i {
-  font-size: 40px;
+.ant-form-item {
+  margin-bottom: 0px !important;
+}
+.ant-modal-body {
+  padding-top: 10px !important;
 }

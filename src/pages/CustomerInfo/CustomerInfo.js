@@ -11,6 +11,7 @@ import whatsapp from "../../assets/icons/whatsapp.png";
 import linkedin from "../../assets/icons/linkedin.png";
 import facebook from "../../assets/icons/facebook.png";
 import website from "../../assets/icons/website.png";
+import vcard from "../../assets/icons/vcard.png";
 export default function CustomerInfo() {
   const { key } = useParams();
   const [data, setData] = useState([]);
@@ -37,6 +38,8 @@ export default function CustomerInfo() {
         return website;
       case "facebook":
         return facebook;
+      case "vcard":
+        return vcard;
       default:
         break;
     }
